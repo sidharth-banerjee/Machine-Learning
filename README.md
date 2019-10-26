@@ -14,9 +14,9 @@ List of assignments:
 UCI Datasets
 	desctription file: dataset_description.html
 	
-	Training Files					|	Test Files
+	Training Files		|	Test Files
 	pendigits_training.txt	|	pendigits_test.txt
 	satellite_training.txt	|	satellite_test.txt
-	yeast_training.txt			|	yeast_test.txt
+	yeast_training.txt	|	yeast_test.txt
 
 Note: These files are for educational purposes only and any work should not be used for submissions anywhere.
