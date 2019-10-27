@@ -19,7 +19,6 @@ pruning_thr= int(sys.argv[4])
 
 # # Functions
 
-# function to return csv data in a DataFrame format
 def returnData(training_file):
     df = pd.read_csv(training_file, delimiter= '\s+', header=None)
     attributes = len(df.columns) - 1
@@ -28,6 +27,13 @@ def returnData(training_file):
     col_header.append('Class')
     df.columns = col_header
     return df
+
+def sameClass(examples):
+    class = examples[0][-1]
+    for i in range (1, len(examples), 1):
+        if (examples[i][-1] != class)
+            return False
+    return True
 
 def class_distribution(df):
     class_count = [0] * (df['Class'].max())
@@ -41,12 +47,27 @@ def DTL_TopLevel(df, pruning_thr):
     default = np.argmax(class_distribution(df)) + df['Class'].min()
     return (np.array(df), attributes, default, pruning_thr)
 
-#def DTL(examples, attributes, default, pruning_thr):
-#    if np.size(examples) == 0:
-#        return default
+def DTL(examples, attributes, default, pruning_thr):
+    if np.size(examples) == 0:
+        return default
 
-#    elif(sameClass(examples)):
-#        return examples[0][-1]
+    elif(sameClass(examples)):
+        return examples[0][-1]
+
+    best_attribute, best_threshold = choose_attribute(examples, attributes)
+
+    tree = Node(best_attribute, best_threshold)
+    examples_left = []
+    examples_right= []
+
+    for i in range (0, len(examples), i++):
+        if (examples[i][best_attribute] < best_threshold)
+            examples_left.append(examples[i][best_attribute])
+        else:
+            examples_right.append(examples[i][best_attribute])
+
+
+    tree.left_child = DTL(examples_left, attributes, )
 
 df_train = returnData(training_file)
 

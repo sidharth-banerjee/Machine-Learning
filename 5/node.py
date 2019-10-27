@@ -1,10 +1,6 @@
-'''
-Class Implementation for classes Node
-'''
-
 class Node:
-    def __init__(self, data):
-        self.data = data
-        self.threshold = None
-        self.left = None
-        self.right = None
+    def __init__(self, attribute, threshold):
+        self.attribute   = attribute
+        self.threshold   = threshold
+        self.left_child  = None
+        self.right_child = None
