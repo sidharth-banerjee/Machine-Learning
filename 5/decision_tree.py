@@ -25,7 +25,7 @@ def returnData(training_file):
     df = pd.read_csv(training_file, delimiter= '\s+', header=None)
     return np.array(df)
 
-examples = returnData('yeast_training.txt')
+examples = returnData(training_file)
 classes = np.array(examples[:,-1])
 low_class = np.amin(classes)
 high_class = np.amax(classes)
@@ -315,7 +315,7 @@ def answer(x, tree):
 # In[865]:
 
 
-test = returnData('yeast_test.txt')
+test = returnData(test_file)
 
 
 # In[866]:
