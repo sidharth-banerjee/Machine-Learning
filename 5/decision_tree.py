@@ -18,14 +18,14 @@ option = str(sys.argv[3])
 pruning_thr= int(sys.argv[4])
 
 # # Functions
+def returnData(training_file):
+    df = pd.read_csv(training_file, delimiter= '\s+', header=None)
+    return np.array(df)
+
 def return classArray(examples):
     classes = np.array(examples[:,-1])
     min_class = np.amin(classes)
     return classes, min_class
-
-def returnData(training_file):
-    df = pd.read_csv(training_file, delimiter= '\s+', header=None)
-    return np.array(df)
 
 def sameClass(examples):
     value = examples[0][-1]
@@ -42,34 +42,11 @@ def class_distribution(examples):
     class_probability = np.array(class_count)/1000
     return class_probability
 
-def choose_attribute(examples, attributes):
-    pass
-
-def DTL_TopLevel(examples, pruning_thr):
-    attributes = np.arange(0, len(examples[0])-1, 1)
-    classes, min_class = classArray(examples)e
-    default = class_distribution(examples)
-    return (examples, attributes, default, pruning_thr)
-
 def information_gain(examples, A, threshold):
-    pass
+    gain = -1
+    E = np.array(examples[:,A])
 
-def choose_attr_rand(examples, attributes):
-    max_gain = best_threshold = -1
-    A = random.randint(attributes[0], attributes[-1]+1)
-    attribute_values = np.array(examples[:,A])
-    L = np.amin(attribute_values)
-    M = np.amax(attribute_values)
-
-    for k in range (1, 51, 1):
-        threshold = L + K*(M-L)/51
-        gain = information_gain(examples, A, threshold)
-        if gain > max_gain:
-            max_gain = max_gain
-            best_threshold = threshold
-    return (A, best_threshold)
-
-def choose_attr_Opt(examples, attributes):
+def Optimized(examples, attributes):
     max_gain = best_attribute = best_threshold = -1
 
     for A in range (0, len(attributes), 1):
@@ -86,7 +63,36 @@ def choose_attr_Opt(examples, attributes):
                 best_threshold = threshold
     return (best_attribute, best_threshold)
 
-def DTL(examples, attributes, default, pruning_thr):
+def Randomized(examples, attributes):
+    max_gain = best_threshold = -1
+    A = random.randint(attributes[0], attributes[-1]+1)
+    attribute_values = np.array(examples[:,A])
+    L = np.amin(attribute_values)
+    M = np.amax(attribute_values)
+
+    for k in range (1, 51, 1):
+        threshold = L + K*(M-L)/51
+        gain = information_gain(examples, A, threshold)
+        if gain > max_gain:
+            max_gain = max_gain
+            best_threshold = threshold
+    return (A, best_threshold)
+
+def choose_attribute(examples, attributes, option):
+    if option == 'optimized':
+        return (Optmized(examples, attributes))
+    elif option == 'randomized':
+        return (Randomized(examples, attributes))
+    else
+        pass
+
+def DTL_TopLevel(examples, pruning_thr, mode):
+    attributes = np.arange(0, len(examples[0])-1, 1)
+    classes, min_class = classArray(examples)e
+    default = class_distribution(examples)
+    return (examples, attributes, default, pruning_thr, mode)
+
+def DTL(examples, attributes, default, pruning_thr, option):
     if np.size(examples) < pruning_thr:
         return default
 
@@ -94,26 +100,17 @@ def DTL(examples, attributes, default, pruning_thr):
         return examples[0][-1]
 
     else:
-        best_attribute, best_threshold = choose_attribute(examples, attributes)
+        best_attribute, best_threshold = choose_attribute(examples, attributes, option)
 
         tree = Node(best_attribute, best_threshold)
         examples_left = []
         examples_right= []
 
-        #
         for i in range (0, len(examples), 1):
-            left = []
-            right = []
-            for j in range (0, len(examples[i])-1, 1):
-                if (examples[i][j] < best_threshold):
-                    left.append(examples[i][j])
-                else:
-                    right.append(examples[i][j])
-            left.append(examples[i][-1])
-            left.append(examples[i][-1])
-            examples_left.append(left)
-            examples_right.append(right)
-        #
+            if examples[i][best_attribute] < best_threshold:
+                examples_left.append(examples[i])
+            else:
+                examples_right.append(examples[i])
 
         dist = class_distribution(examples)
         tree.left_child = DTL(examples_left, attributes, dist, pruning_thr)
@@ -124,4 +121,7 @@ def DTL(examples, attributes, default, pruning_thr):
 # # Main
 
 examples = returnData(training_file)
-arr, att, default, pru = DTL_TopLevel(df_train, pruning_thr)
+
+tree = DTL_TopLevel(df_train, pruning_thr, option)
+
+test = returnData(test_file)
