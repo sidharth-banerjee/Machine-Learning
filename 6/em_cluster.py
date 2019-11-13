@@ -63,17 +63,17 @@ def eStage(df, p, weights, mean, covariance):
             gaus_k.append(multiGaussian(df.iloc[j], mean[i], covariance[i]))
         N.append(gaus_k)
     N = np.array(N).T
-
+    P = []
     for j in range (0, len(df), 1):
         j_sum = 0
+        P_j = []
         for i in range (0, k, 1):
             j_sum += N[j][i]*weights[i]
 
         for i in range (0, k, 1):
-            p[j][i] = (N[j][i]*weights[i])/j_sum
-            print((N[j][i]*weights[i])/j_sum, p[j][i])
-
-    return p
+            P_j.append((N[j][i]*weights[i])/j_sum)
+        P.append(P_j)
+    return P
 
 def mStage(df, p, weights, mean, covariance):
 
@@ -120,11 +120,11 @@ def mStage(df, p, weights, mean, covariance):
 
 df = returnData(data_file)
 
-p = setProbability(df)
+p = setProbability(df) # initializes probability of x[j] randomly
 
 weights, mean, covariance = init(df) # initializes shape of variables
 
 for i in range (0, 1, 1):
     weights, mean, covariance = mStage(df, p, weights, mean, covariance)
-    p = eStage(df, p, weights, mean, covariance)
-    #print(p)
+    p = np.array(eStage(df, p, weights, mean, covariance))
+    print(p)
