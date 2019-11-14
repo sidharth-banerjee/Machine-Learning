@@ -76,7 +76,6 @@ def eStage(df, weights, mean, covariance):
     return np.array(new_prob)
 
 def mStage(df, p, weights, mean, covariance):
-
     # update weights
     for i in range (0, k, 1):
         value = 0
@@ -116,7 +115,6 @@ def mStage(df, p, weights, mean, covariance):
 
 def inter_output(weights, mean):
     for i in range (0, k, 1):
-
         print('weight {:d} = {:.4f}, '.format(i+1, weights[i]), end = '')
         print('mean {:d} = ('.format(i+1), end = '')
         print('{:.4f}'.format(mean[i][0]), end = '')
@@ -141,12 +139,11 @@ def final_output(weights, mean, covariance):
                 print(', {:.4f}'.format(covariance[i][j][m]), end = '')
             print()
 
-
 # ## Main
 
 df = returnData(data_file)
 
-p = setProbability(df)
+p = setProbability(df)  # initializes probaility of x[j] randomly to one of the clusters
 weights, mean, covariance = init(df) # initializes shape of variables
 
 for i in range (0, iterations, 1):
