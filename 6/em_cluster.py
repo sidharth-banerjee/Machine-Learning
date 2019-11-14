@@ -22,7 +22,7 @@ def returnData(fileName):
     df = df.astype(float)
     return df
 
-def init(df):
+def init_variables(df):
     weights = np.zeros(k)
     mean = [[0 for x in range(len(df.columns))] for y in range (k)]
     covariance = []
@@ -75,7 +75,9 @@ def eStage(df, weights, mean, covariance):
         new_prob.append(j_prob)
     return np.array(new_prob)
 
-def mStage(df, p, weights, mean, covariance):
+def mStage(df, p):
+    weights, mean, covariance = init_variables(df) # intializes variable shapes
+
     # update weights
     for i in range (0, k, 1):
         value = 0
@@ -142,9 +144,7 @@ def final_output(weights, mean, covariance):
 # ## Main
 
 df = returnData(data_file)
-
 p = setProbability(df)  # initializes probaility of x[j] randomly to one of the clusters
-weights, mean, covariance = init(df) # initializes shape of variables
 
 for i in range (0, iterations, 1):
     weights, mean, covariance = mStage(df, p, weights, mean, covariance)
