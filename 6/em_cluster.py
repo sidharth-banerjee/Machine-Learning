@@ -147,7 +147,7 @@ df = returnData(data_file)
 p = setProbability(df)  # initializes probaility of x[j] randomly to one of the clusters
 
 for i in range (0, iterations, 1):
-    weights, mean, covariance = mStage(df, p, weights, mean, covariance)
+    weights, mean, covariance = mStage(df, p)
     p = eStage(df, weights, mean, covariance)
 
     if i < iterations-1:
