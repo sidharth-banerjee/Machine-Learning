@@ -1,24 +1,26 @@
-'''
-Name: Sidharth Banerjee
-ID  : 1001622703
-'''
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[71]:
+
 
 import numpy as np
 import pandas as pd
 import math
 import time
 import random
+import sys
 
 
-# In[850]:
+# In[72]:
 
 training_file = str(sys.argv[1])
 test_file = str(sys.argv[2])
 option = str(sys.argv[3])
-pruning_thr= int(sys.argv[4])
+pruning_thr = int(sys.argv[4])
 
 
-# In[851]:
+# In[73]:
 
 
 def returnData(training_file):
@@ -32,7 +34,7 @@ high_class = np.amax(classes)
 classSize = int(high_class-low_class+1)
 
 
-# In[852]:
+# In[74]:
 
 
 class Node:
@@ -45,7 +47,7 @@ class Node:
         self.right_child = None
 
 
-# In[853]:
+# In[75]:
 
 
 def sameClass(examples):
@@ -55,7 +57,7 @@ def sameClass(examples):
     return True
 
 
-# In[854]:
+# In[76]:
 
 
 def class_distribution(examples):
@@ -66,7 +68,7 @@ def class_distribution(examples):
     return class_probability
 
 
-# In[855]:
+# In[77]:
 
 
 def information_gain(examples, A, threshold):
@@ -123,7 +125,7 @@ def information_gain(examples, A, threshold):
     return info_gain
 
 
-# In[856]:
+# In[78]:
 
 
 def Optimized(examples, attributes):
@@ -144,7 +146,7 @@ def Optimized(examples, attributes):
     return (best_attribute, best_threshold, max_gain)
 
 
-# In[857]:
+# In[79]:
 
 
 def Randomized(examples, attributes):
@@ -163,7 +165,7 @@ def Randomized(examples, attributes):
     return (A, best_threshold, max_gain)
 
 
-# In[858]:
+# In[80]:
 
 
 def choose_attribute(examples, attributes, option):
@@ -175,7 +177,7 @@ def choose_attribute(examples, attributes, option):
         return (Randomized(examples, attributes))
 
 
-# In[859]:
+# In[81]:
 
 
 def DTL(examples, attributes, default, pruning_thr, option):
@@ -219,7 +221,7 @@ def DTL(examples, attributes, default, pruning_thr, option):
         return tree
 
 
-# In[860]:
+# In[82]:
 
 
 def DTL_TopLevel(examples, pruning_thr, option):
@@ -228,7 +230,7 @@ def DTL_TopLevel(examples, pruning_thr, option):
     return DTL(examples, attributes, default, 50, option)
 
 
-# In[861]:
+# In[83]:
 
 
 trees = []
@@ -243,7 +245,7 @@ elif option == 'forest15':
         trees.append(DTL_TopLevel(examples, pruning_thr, option))
 
 
-# In[862]:
+# In[84]:
 
 
 index = 1
@@ -282,20 +284,18 @@ def height(node):
             return rheight+1
 
 
-# In[863]:
+# In[85]:
 
 
 for i in range (0, len(trees), 1):
-    global index
     index = 1
-    global num
     print('Print tree {:2d}\n'.format(i+1))
     printLevelOrder(trees[i])
     print('\n********\n')
     num += 1
 
 
-# In[864]:
+# In[86]:
 
 
 def answer(x, tree):
@@ -312,13 +312,13 @@ def answer(x, tree):
             return answer(x, tree.right_child)
 
 
-# In[865]:
+# In[87]:
 
 
 test = returnData(test_file)
 
 
-# In[866]:
+# In[88]:
 
 
 class_acc = []
@@ -343,10 +343,10 @@ for i in range (0, len(test), 1):
         class_acc.append(0)
 
     print("ID={:5d}, predicted={:3d}, true={:3d}, accuracy={:4.2f}"
-              .format(i, int(d), int(test[i][-1]), class_acc[i]))
+              .format(i+1, int(d), int(test[i][-1]), class_acc[i]))
 
 
-# In[867]:
+# In[89]:
 
 
 print()
