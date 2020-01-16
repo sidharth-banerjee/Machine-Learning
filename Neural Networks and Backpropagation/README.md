@@ -1,1 +1,1 @@
-Assignments on Neural Networks and Backpropagation
+Assignments on Neural Networks (with hidden layers) and Backpropagation.
