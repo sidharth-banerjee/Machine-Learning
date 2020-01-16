@@ -1,3 +1,5 @@
+Program Question
+
 Naive Bayes Classifier
 
 You must implement a Matlab function or a Python executable file called naive_bayes that learns a naive Bayes classifier for a classification problem, given some training data and some additional options. In particular, your function can be invoked as follows:
