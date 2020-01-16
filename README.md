@@ -11,12 +11,4 @@ List of assignments:
 	6. Clustering
 	7. Reinforcement Learning
 
-UCI Datasets
-	desctription file: dataset_description.html
-	
-	Training Files		|	Test Files
-	pendigits_training.txt	|	pendigits_test.txt
-	satellite_training.txt	|	satellite_test.txt
-	yeast_training.txt	|	yeast_test.txt
-
 Note: These files are for educational purposes only and any work should not be used for submissions anywhere.
